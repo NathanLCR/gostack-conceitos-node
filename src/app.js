@@ -51,13 +51,15 @@ app.put('/repositories/:id', (request, response) => {
 app.delete('/repositories/:id', (request, response) => {
   const { id } = request.params;
 
-  const repository = repositories.find((repository) => repository.id === id);
+  const repositoryIndex = repositories.findIndex(
+    (repository) => repository.id === id
+  );
 
-  if (!repository) {
+  if (repositoryIndex < 0) {
     return response.status(400).json({ error: 'Repository does not exist' });
   }
 
-  repositories.splice((r) => r == repository);
+  repositories.splice(repositoryIndex, 1);
 
   return response.status(204).json({ msg: 'No Content' });
 });
